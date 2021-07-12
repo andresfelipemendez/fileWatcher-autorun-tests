@@ -20,7 +20,15 @@ int main()
 
             if (path_to_watch.substr(path_to_watch.find_last_of(".") + 1) == "cpp")
             {
-                system("./myfile.sh");
+                #if defined(_WIN32)
+                    system("watch.bat");
+                #elif defined(_WIN64)
+                    system("watch.bat");
+                #elif defined(__CYGWIN__) && !defined(_WIN32)
+                    system("watch.bat"); // should this be a .sh?
+                #else
+                    system("./myfile.sh");
+                #endif
             }
             break;
         case FileStatus::erased:
